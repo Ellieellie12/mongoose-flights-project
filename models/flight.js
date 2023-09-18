@@ -15,13 +15,15 @@ const flightSchema = new Schema({
   flightNo: Number,
   
   departs: {
-    type: Number,
+    type: Date,
     default: function() {
       return new Date().getFullYear()
-    },
-  }, 
+    }},
+
+  }, {
   timestamps: true
 })
+
 
 const Flight = mongoose.model('Flight', flightSchema)
 
