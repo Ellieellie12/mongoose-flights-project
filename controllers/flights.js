@@ -2,14 +2,21 @@ import { Flight } from "../models/flight.js"
 
 
 function newFlight(req, res) {
+  const newFlight = new Flight();
+// Obtain the default date
+const dt = newFlight.departs;
+// Format the date for the value attribute of the input
+const departsDate = dt.toISOString().slice(0, 16);
   res.render('flights/new', {
-    title: 'Add Flight'
+    title: 'Add Flight',
+    departsDate
   })
 }
 
 function create(req, res) {
   Flight.create(req.body)
   .then (flight => {
+    console.log(flight)
     res.redirect('/flights')
   })
   .catch(err => {
@@ -72,19 +79,14 @@ function edit(req,res) {
 }
 
 function update(req, res) {
-  // for (let key in req.body) {
-  //   if (req.body[key] === '') {
-  //     delete req.body[key]
-  //   }
-  // }
-  // Flight.findByIdAndUpdate(req.params.flightId, req.body, {new: true})
-  // .then(flight => {
-  //   res.redirect(`/flights/${flight._id}`)
-  // })
-  // .catch(err => {
-  //   console.log(err)
-  //   res.redirect("/")
-  // })
+  Flight.findByIdAndUpdate(req.params.flightId, req.body, {new: true})
+  .then(flight => {
+    res.redirect(`/flights/${flight._id}`)
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect("/")
+  })
 }
 
 
